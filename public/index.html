@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>トレードオフ・スライダー</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="trade_off_slider.css" />
+
+<!--
+  <script src="main.js"></script>
+-->
+<!-- 参考
+input type=range タグをカスタマイズするために
+https://www.g200kg.com/archives/2017/12/input-typerange.html
+
+レンジ入力欄(スライダー)の現在値を表示する方法
+https://beiznotes.org/input-range-show-value/
+-->
+
+</head>
+<body>
+
+  <h1>トレードオフ・スライダー  </h1>
+  <table border="1">
+    <tr>
+      <th></th>
+      <th>Value</th>
+      <th>典型的なフォース</th>
+    </tr>
+
+    <tr class="group1">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="機能をぜんぶ揃える（スコープ）"></td>
+    </tr>
+
+    <tr class="group1">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="予算内に収める（予算）"></td>
+    </tr>
+
+    <tr class="group1">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="期日を死守する（時間）"></td>
+    </tr>
+
+    <tr class="group1">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="高い品質、少ない欠陥（品質）"></td>
+    </tr>
+  </table>
+<br>
+  <table border="1">
+    <tr>
+      <th></th>
+      <th>Value</th>
+      <th>上記以外で重要なこと</th>
+    </tr>
+
+    <tr class="group2">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="簡単に使える"></td>
+    </tr>
+
+    <tr class="group2">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="考えさせない！"></td>
+    </tr>
+
+    <tr class="group2">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="詳細な証跡（なんでもログを取る）"></td>
+    </tr>
+
+    <tr class="group2">
+      <td>Min<input type="range" min="0" max="100" value="50" step="1">Max</td>
+      <td><span>50</span></td>
+      <td><input type="text" value="（などなど）"></td>
+    </tr>
+  </table>
+
+  <script>
+    var elem1 = document.getElementsByClassName('group1');
+    var elem2 = document.getElementsByClassName('group2');
+
+    let rangeValueAll = function(elem){
+      for(let i = 0, max = elem.length; i < max; i++){
+          elem[i].getElementsByTagName('span')[0].textContent =
+          elem[i].getElementsByTagName('input')[0].value;
+      }
+    }
+
+    var sum_value =function(target,elem){
+      let total_value = 0;
+      for(let i = 0, max = elem.length; i < max; i++){
+        total_value += (elem[i].getElementsByTagName('span')[0].textContent - 0);
+      }
+
+      for(let i = 0, max = elem.length; i < max; i++){
+        let input = elem[i].getElementsByTagName('input')[0];
+        let diff = parseInt((200 - total_value) / 3);
+        if (target !== input){
+          input.value = Number(input.value) + Number(diff);
+        }
+      }
+    }
+
+    let setEvet = function(elem){
+      console.log(elem)
+      for(let i = 0, max = elem.length; i < max; i++){
+        bar = elem[i].getElementsByTagName('input')[0];
+        bar.addEventListener('input', function(evt){
+              rangeValueAll(elem);
+              sum_value(evt.target,elem);
+              rangeValueAll(elem);
+            }
+        );
+      }
+    }
+    setEvet(elem1);
+    setEvet(elem2);
+  </script>
+</body>
+</html>
